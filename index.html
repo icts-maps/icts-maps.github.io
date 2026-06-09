@@ -47,7 +47,7 @@
         }
 
         .logo-svg {
-            height: 60px;
+            height: 80px;
             width: auto;
         }
 
@@ -174,17 +174,16 @@
     <!-- Header & Embedded SVG Logo -->
     <header>
         <div class="logo-container" onclick="switchPage('home')">
-            <svg class="logo-svg" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
-                <g transform="translate(130, 150) rotate(-30)">
-                    <!-- The Abstract (Gold) -->
-                    <path d="M -70,0 A 70,70 0 0,1 70,0" fill="none" stroke="#d4af37" stroke-width="12" stroke-linecap="round" transform="translate(-15, -10)" />
-                    <!-- The Physical (Ash) -->
-                    <path d="M 70,0 A 70,70 0 0,1 -70,0" fill="none" stroke="#8b8b99" stroke-width="12" stroke-linecap="round" transform="translate(15, 10)" />
-                    <!-- The Nexus/Observer (Cyan) -->
-                    <circle cx="0" cy="0" r="12" fill="#4da8da" />
+            <svg class="logo-svg" viewBox="0 0 850 180" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(100, 90) rotate(-30) scale(0.85)">
+                    <path d="M -80,0 A 80,80 0 0,1 80,0" fill="none" stroke="var(--accent-gold)" stroke-width="14" stroke-linecap="round" transform="translate(-15, -10)" style="transition: stroke 0.4s ease;" />
+                    <path d="M 80,0 A 80,80 0 0,1 -80,0" fill="none" stroke="var(--text-muted)" stroke-width="14" stroke-linecap="round" transform="translate(15, 10)" style="transition: stroke 0.4s ease;" />
+                    <circle cx="0" cy="0" r="14" fill="var(--accent-cyan)" style="transition: fill 0.4s ease;" />
                 </g>
-                <text x="270" y="140" font-family="'Georgia', serif" font-size="64" font-weight="normal" fill="#e0d8c8" letter-spacing="2">ICTS<tspan fill="#d4af37">-</tspan>MAPs</text>
-                <text x="275" y="180" font-family="'Arial', sans-serif" font-size="14" fill="#8b8b99" letter-spacing="4" text-transform="uppercase">Mathematics and Physics society</text>
+                
+                <text x="210" y="105" font-family="'Georgia', serif" font-size="76" font-weight="normal" fill="var(--text-main)" letter-spacing="2" style="transition: fill 0.4s ease;">ICTS<tspan fill="var(--accent-gold)">-</tspan>MAPs</text>
+                
+                <text x="215" y="150" font-family="'Arial', sans-serif" font-size="24" font-weight="bold" fill="var(--text-muted)" letter-spacing="3" text-transform="uppercase" style="transition: fill 0.4s ease;">Mathematics and Physics society</text>
             </svg>
         </div>
         <nav>
