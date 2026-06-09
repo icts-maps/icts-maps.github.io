@@ -3,17 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ICTS-MAPs: An interdisciplinary student forum dedicated to the rigorous exploration of theoretical sciences.">
+    <meta name="author" content="Utkarsh Kashyap">
     <title>ICTS - MAPs | Mathematics and Physics society</title>
     <style>
-        /* "Deep Void & Brass" Color Palette */
+        /* Base Variables - Deep Void & Brass (Dark Mode) */
         :root {
-            --bg-deep: #0d0d12;       /* Void Black */
-            --bg-surface: #17171d;    /* Elevated Dark Gray */
-            --text-main: #e0d8c8;     /* Warm Parchment */
-            --text-muted: #8b8b99;    /* Ash Gray */
-            --accent-gold: #d4af37;   /* Abstract/Math Brass */
-            --accent-cyan: #4da8da;   /* Physical/Reality Cyan */
+            --bg-deep: #0d0d12;       
+            --bg-surface: #17171d;    
+            --text-main: #e0d8c8;     
+            --text-muted: #8b8b99;    
+            --accent-gold: #d4af37;   
+            --accent-cyan: #4da8da;   
             --border-subtle: #2a2a35;
+        }
+
+        /* Light Mode Overrides - Parchment & Ink */
+        [data-theme="light"] {
+            --bg-deep: #f4f4f6;       
+            --bg-surface: #ffffff;    
+            --text-main: #2b2b30;     
+            --text-muted: #6b6b78;    
+            --accent-gold: #b38600;   
+            --accent-cyan: #1a7eb8;   
+            --border-subtle: #d1d1d6;
         }
 
         body {
@@ -24,6 +37,7 @@
             padding: 0;
             line-height: 1.7;
             overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         /* Header & Navigation */
@@ -34,10 +48,11 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--accent-gold);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: background-color 0.4s ease;
         }
 
         .logo-container {
@@ -49,6 +64,11 @@
         .logo-svg {
             height: 80px;
             width: auto;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
         }
 
         nav button {
@@ -69,6 +89,17 @@
         nav button:hover, nav button.active {
             color: var(--accent-gold);
             border-bottom: 2px solid var(--accent-cyan);
+        }
+
+        /* Theme Toggle Button Specifics */
+        #theme-toggle {
+            font-size: 1.2rem;
+            margin-left: 40px;
+            border: none !important;
+        }
+
+        #theme-toggle:hover {
+            transform: scale(1.1);
         }
 
         /* Page Management */
@@ -110,6 +141,7 @@
             border: 1px solid var(--border-subtle);
             border-left: 3px solid var(--accent-cyan);
             margin-bottom: 40px;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
         }
 
         p {
@@ -128,7 +160,7 @@
             background-color: var(--bg-surface);
             padding: 30px;
             border: 1px solid var(--border-subtle);
-            transition: transform 0.3s, border-color 0.3s;
+            transition: transform 0.3s, border-color 0.3s, background-color 0.4s ease;
         }
 
         .card:hover {
@@ -147,7 +179,7 @@
             display: inline-block;
             font-family: 'Arial', sans-serif;
             font-size: 0.75rem;
-            color: var(--bg-deep);
+            color: var(--bg-surface);
             background-color: var(--accent-cyan);
             padding: 3px 8px;
             border-radius: 2px;
@@ -166,12 +198,52 @@
             font-size: 0.85rem;
             color: var(--text-muted);
             letter-spacing: 1px;
+            transition: background-color 0.4s ease;
+        }
+        /* 📱 MOBILE RESPONSIVENESS (Screens smaller than 768px) */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem 10px;
+            }
+
+            .logo-svg {
+                height: 50px; /* Shrink logo slightly for mobile */
+                margin-bottom: 15px;
+            }
+
+            nav {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap; /* Allows buttons to drop to a new line if needed */
+                gap: 10px;
+            }
+
+            nav button {
+                margin-left: 5px;
+                margin-right: 5px;
+                font-size: 0.8rem; /* Slightly smaller text */
+            }
+
+            #theme-toggle {
+                margin-left: 10px;
+                position: absolute;
+                top: 20px;
+                right: 15px; /* Pins the dark mode toggle to the top right */
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .content-box {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header & Embedded SVG Logo -->
     <header>
         <div class="logo-container" onclick="switchPage('home')">
             <svg class="logo-svg" viewBox="0 0 850 180" xmlns="http://www.w3.org/2000/svg">
@@ -191,10 +263,10 @@
             <button id="nav-about" onclick="switchPage('about')">Philosophy</button>
             <button id="nav-programs" onclick="switchPage('programs')">Programs</button>
             <button id="nav-archives" onclick="switchPage('archives')">Archives</button>
+            <button id="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">🌓</button>
         </nav>
     </header>
 
-    <!-- PAGE 1: HOME -->
     <div id="home" class="page active">
         <h2>The Nexus of Theoretical Sciences</h2>
         <div class="content-box">
@@ -213,7 +285,6 @@
         </div>
     </div>
 
-    <!-- PAGE 2: ABOUT / PHILOSOPHY -->
     <div id="about" class="page">
         <h2>Our Intellectual Philosophy</h2>
         <div class="content-box">
@@ -222,7 +293,6 @@
         </div>
     </div>
 
-    <!-- PAGE 3: PROGRAMS -->
     <div id="programs" class="page">
         <h2>Current Seminars & Modules</h2>
         <div class="grid">
@@ -244,7 +314,6 @@
         </div>
     </div>
 
-    <!-- PAGE 4: ARCHIVES -->
     <div id="archives" class="page">
         <h2>Repository & Syntheses</h2>
         <div class="content-box" style="border-left-color: var(--accent-gold);">
@@ -258,21 +327,40 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2026 ICTS - Mathematics and Physics society (MAPs)</p>
-        <p style="font-size: 0.75rem; color: #555;">Maintained in collaboration with the PhysicSofy platform.</p>
+        <p style="font-size: 0.75rem; color: var(--text-muted);">Maintained in collaboration with the PhysicSofy platform.</p>
     </footer>
 
-    <!-- JavaScript to Handle Page Switching -->
     <script>
+        // Check local storage for theme preference on load
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem("maps-theme");
+            if (savedTheme === "light") {
+                document.documentElement.setAttribute("data-theme", "light");
+            }
+        });
+
+        // Toggle Theme Function
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            if (currentTheme === "light") {
+                document.documentElement.removeAttribute("data-theme");
+                localStorage.setItem("maps-theme", "dark");
+            } else {
+                document.documentElement.setAttribute("data-theme", "light");
+                localStorage.setItem("maps-theme", "light");
+            }
+        }
+
+        // Page Switching Function
         function switchPage(pageId) {
             // Hide all pages
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => page.classList.remove('active'));
 
             // Remove active class from all nav buttons
-            const navBtns = document.querySelectorAll('nav button');
+            const navBtns = document.querySelectorAll('nav button:not(#theme-toggle)');
             navBtns.forEach(btn => btn.classList.remove('active'));
 
             // Show selected page
