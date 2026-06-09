@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICTS - MAPs | Mathematics and Physics society</title>
+    <style>
+        /* "Deep Void & Brass" Color Palette */
+        :root {
+            --bg-deep: #0d0d12;       /* Void Black */
+            --bg-surface: #17171d;    /* Elevated Dark Gray */
+            --text-main: #e0d8c8;     /* Warm Parchment */
+            --text-muted: #8b8b99;    /* Ash Gray */
+            --accent-gold: #d4af37;   /* Abstract/Math Brass */
+            --accent-cyan: #4da8da;   /* Physical/Reality Cyan */
+            --border-subtle: #2a2a35;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--bg-surface);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--accent-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .logo-svg {
+            height: 60px;
+            width: auto;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-family: 'Arial', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-left: 30px;
+            cursor: pointer;
+            transition: color 0.3s, border-bottom 0.3s;
+            padding-bottom: 5px;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav button:hover, nav button.active {
+            color: var(--accent-gold);
+            border-bottom: 2px solid var(--accent-cyan);
+        }
+
+        /* Page Management */
+        .page {
+            display: none;
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 20px;
+            animation: fadeIn 0.6s ease-in-out;
+            min-height: 70vh;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography & Content Boxes */
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+
+        h2 {
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+        }
+
+        .content-box {
+            background-color: var(--bg-surface);
+            padding: 40px;
+            border: 1px solid var(--border-subtle);
+            border-left: 3px solid var(--accent-cyan);
+            margin-bottom: 40px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        /* Grid Layouts for Programs */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--bg-surface);
+            padding: 30px;
+            border: 1px solid var(--border-subtle);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+        }
+
+        .card h3 {
+            color: var(--accent-gold);
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .tag {
+            display: inline-block;
+            font-family: 'Arial', sans-serif;
+            font-size: 0.75rem;
+            color: var(--bg-deep);
+            background-color: var(--accent-cyan);
+            padding: 3px 8px;
+            border-radius: 2px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-surface);
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border-subtle);
+            font-family: 'Arial', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Embedded SVG Logo -->
+    <header>
+        <div class="logo-container" onclick="switchPage('home')">
+            <svg class="logo-svg" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(130, 150) rotate(-30)">
+                    <!-- The Abstract (Gold) -->
+                    <path d="M -70,0 A 70,70 0 0,1 70,0" fill="none" stroke="#d4af37" stroke-width="12" stroke-linecap="round" transform="translate(-15, -10)" />
+                    <!-- The Physical (Ash) -->
+                    <path d="M 70,0 A 70,70 0 0,1 -70,0" fill="none" stroke="#8b8b99" stroke-width="12" stroke-linecap="round" transform="translate(15, 10)" />
+                    <!-- The Nexus/Observer (Cyan) -->
+                    <circle cx="0" cy="0" r="12" fill="#4da8da" />
+                </g>
+                <text x="270" y="140" font-family="'Georgia', serif" font-size="64" font-weight="normal" fill="#e0d8c8" letter-spacing="2">ICTS<tspan fill="#d4af37">-</tspan>MAPs</text>
+                <text x="275" y="180" font-family="'Arial', sans-serif" font-size="14" fill="#8b8b99" letter-spacing="4" text-transform="uppercase">Mathematics and Physics society</text>
+            </svg>
+        </div>
+        <nav>
+            <button id="nav-home" class="active" onclick="switchPage('home')">Home</button>
+            <button id="nav-about" onclick="switchPage('about')">Philosophy</button>
+            <button id="nav-programs" onclick="switchPage('programs')">Programs</button>
+            <button id="nav-archives" onclick="switchPage('archives')">Archives</button>
+        </nav>
+    </header>
+
+    <!-- PAGE 1: HOME -->
+    <div id="home" class="page active">
+        <h2>The Nexus of Theoretical Sciences</h2>
+        <div class="content-box">
+            <p>Welcome to the <strong>Mathematics and Physics society (MAPs)</strong> at the International Centre for Theoretical Sciences. We are an interdisciplinary forum dedicated to the rigorous exploration of foundational reality.</p>
+            <p>From the emergent behavior of complex systems to the mathematical symmetry underpinning quantum mechanics, MAPs provides a dedicated space where the abstraction of mathematics meets the phenomena of physics.</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h3>Interdisciplinary Synthesis</h3>
+                <p>We actively break down the boundaries between theoretical physics, computational biology, and abstract mathematics.</p>
+            </div>
+            <div class="card">
+                <h3>Active Deconstruction</h3>
+                <p>Our sessions prioritize blackboard derivations and conceptual translation over passive, formal presentations.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: ABOUT / PHILOSOPHY -->
+    <div id="about" class="page">
+        <h2>Our Intellectual Philosophy</h2>
+        <div class="content-box">
+            <p>Our emblem—the broken symmetry—represents the fundamental truth of the universe we study. In pure mathematics and absolute physics, perfect symmetry is a void. It is only when symmetry breaks that time, matter, and complexity emerge.</p>
+            <p>MAPs exists exactly at this conceptual fault line. We study the pure, abstract frameworks of reality (the upper gold arc) and trace how they map onto chaotic, physical phenomena (the lower physical arc). The observer, and this society, acts as the central point bridging the two.</p>
+        </div>
+    </div>
+
+    <!-- PAGE 3: PROGRAMS -->
+    <div id="programs" class="page">
+        <h2>Current Seminars & Modules</h2>
+        <div class="grid">
+            <div class="card">
+                <span class="tag">Active Module</span>
+                <h3>Advanced Analytical Mechanics</h3>
+                <p>Exploring symplectic geometry, phase space evolution, and Lagrangian/Hamiltonian action principles. Essential for researchers applying dynamic systems theory to complex models.</p>
+            </div>
+            <div class="card">
+                <span class="tag">Upcoming</span>
+                <h3>Topological Invariants in Physics</h3>
+                <p>A blackboard discussion tracking how abstract topological concepts map onto condensed matter physics and gauge theories.</p>
+            </div>
+            <div class="card">
+                <span class="tag">Weekly Forum</span>
+                <h3>The Assumption Takedown</h3>
+                <p>An open session dedicated to analyzing where textbook mathematical frameworks break down when applied to macroscopic physical realities.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: ARCHIVES -->
+    <div id="archives" class="page">
+        <h2>Repository & Syntheses</h2>
+        <div class="content-box" style="border-left-color: var(--accent-gold);">
+            <p>The society maintains an active repository of collaborative notes, lecture syntheses, and foundational derivations to support the broader ICTS community.</p>
+            <ul style="color: var(--text-muted); line-height: 2;">
+                <li><strong style="color: var(--text-main);">Thermal Physics Summaries:</strong> Collaborative notes on statistical ensembles and thermodynamics.</li>
+                <li><strong style="color: var(--text-main);">Mathematical Methods Compendium:</strong> Quick-reference sheets for operator theory and symmetries.</li>
+                <li><strong style="color: var(--text-main);">The Translation Logs:</strong> Records of cross-disciplinary mappings developed during our blackboard panels.</li>
+            </ul>
+            <p style="margin-top: 30px; font-size: 0.9rem;"><em>All archive materials are openly accessible to current institute members.</em></p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 ICTS - Mathematics and Physics society (MAPs)</p>
+        <p style="font-size: 0.75rem; color: #555;">Maintained in collaboration with the PhysicSofy platform.</p>
+    </footer>
+
+    <!-- JavaScript to Handle Page Switching -->
+    <script>
+        function switchPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Remove active class from all nav buttons
+            const navBtns = document.querySelectorAll('nav button');
+            navBtns.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Highlight selected nav button
+            document.getElementById('nav-' + pageId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
