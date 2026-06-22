@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ICTS-MAPs: An interdisciplinary student forum dedicated to the rigorous exploration of theoretical sciences.">
+    <meta name="description" content="ICTS-MAPs: An interdisciplinary student forum dedicated to the rigorous exploration of theoretical sciences and aesthetics.">
     <meta name="author" content="Utkarsh Kashyap">
-    <title>ICTS - MAPs | Mathematics and Physics society</title>
+    <title>ICTS - MAPs | Mathematics, Aesthetics, and Physics society</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <style>
         /* Base Variables - Deep Void & Brass (Dark Mode) */
@@ -17,6 +17,13 @@
             --accent-gold: #d4af37;   
             --accent-cyan: #4da8da;   
             --border-subtle: #2a2a35;
+            --shadow-soft: rgba(0, 0, 0, 0.4);
+            --shadow-glow: rgba(212, 175, 55, 0.2);
+            --shadow-cyan: rgba(77, 168, 218, 0.15);
+            
+            /* Easing Curves */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
         }
 
         /* Light Mode Overrides - Parchment & Ink */
@@ -28,6 +35,9 @@
             --accent-gold: #b38600;   
             --accent-cyan: #1a7eb8;   
             --border-subtle: #d1d1d6;
+            --shadow-soft: rgba(0, 0, 0, 0.08);
+            --shadow-glow: rgba(179, 134, 0, 0.2);
+            --shadow-cyan: rgba(26, 126, 184, 0.15);
         }
 
         body {
@@ -38,7 +48,7 @@
             padding: 0;
             line-height: 1.7;
             overflow-x: hidden;
-            transition: background-color 0.4s ease, color 0.4s ease;
+            transition: background-color 0.8s var(--ease-out-expo), color 0.8s var(--ease-out-expo);
         }
 
         /* Header & Navigation */
@@ -49,22 +59,39 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--accent-gold);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 30px var(--shadow-soft);
             position: sticky;
             top: 0;
             z-index: 100;
-            transition: background-color 0.4s ease;
+            transition: background-color 0.8s var(--ease-out-expo), box-shadow 0.8s var(--ease-out-expo);
+            backdrop-filter: blur(10px);
         }
 
         .logo-container {
             display: flex;
             align-items: center;
             cursor: pointer;
+            transition: transform 0.5s var(--ease-spring);
+        }
+
+        .logo-container:hover {
+            transform: scale(1.02);
         }
 
         .logo-svg {
             height: 80px;
             width: auto;
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.3));
+            transition: filter 0.5s var(--ease-out-expo);
+        }
+
+        .logo-container:hover .logo-nexus {
+            transform: scale(1.2) rotate(45deg);
+            fill: var(--accent-gold);
+        }
+        
+        .logo-container:hover .logo-arc-gold, .logo-container:hover .logo-arc-ash {
+            filter: drop-shadow(0 0 8px var(--shadow-glow));
         }
 
         nav {
@@ -79,50 +106,82 @@
             font-family: 'Arial', sans-serif;
             font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-left: 30px;
+            letter-spacing: 1.5px;
+            margin-left: 25px;
             cursor: pointer;
-            transition: color 0.3s, border-bottom 0.3s;
+            transition: color 0.4s var(--ease-out-expo), transform 0.4s var(--ease-out-expo);
             padding-bottom: 5px;
-            border-bottom: 2px solid transparent;
+            position: relative;
+        }
+
+        nav button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 50%;
+            background-color: var(--accent-cyan);
+            transition: width 0.4s var(--ease-out-expo), left 0.4s var(--ease-out-expo);
+            border-radius: 2px;
+        }
+
+        nav button:hover::after, nav button.active::after {
+            width: 100%;
+            left: 0;
         }
 
         nav button:hover, nav button.active {
             color: var(--accent-gold);
-            border-bottom: 2px solid var(--accent-cyan);
+            transform: translateY(-2px);
         }
 
-        /* Theme Toggle Button Specifics */
         #theme-toggle {
             font-size: 1.2rem;
             margin-left: 40px;
             border: none !important;
+            transform-origin: center;
+        }
+
+        #theme-toggle::after {
+            display: none;
         }
 
         #theme-toggle:hover {
-            transform: scale(1.1);
+            transform: scale(1.2) rotate(15deg);
         }
 
-        /* Page Management */
+        /* 
+           ADVANCED PAGE TRANSITIONS 
+           Pages now have a default hidden state and transition smoothly when classes are added
+        */
         .page {
             display: none;
             max-width: 1000px;
             margin: 60px auto;
             padding: 0 20px;
-            animation: fadeIn 0.6s ease-in-out;
             min-height: 70vh;
+            
+            /* Starting state for animations */
+            opacity: 0;
+            transform: translateY(15px);
+            filter: blur(4px);
+            transition: opacity 0.4s ease, transform 0.5s var(--ease-out-expo), filter 0.4s ease;
+            will-change: opacity, transform, filter;
         }
 
+        /* Step 1: Element is put into the document flow */
         .page.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Step 2: The actual visible transition triggers */
+        .page.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
         }
 
-        /* Typography & Content Boxes */
         h1, h2, h3 {
             font-weight: normal;
         }
@@ -131,49 +190,99 @@
             color: var(--accent-gold);
             border-bottom: 1px solid var(--border-subtle);
             padding-bottom: 15px;
-            margin-bottom: 30px;
-            font-size: 2.2rem;
+            margin-bottom: 35px;
+            font-size: 2.4rem;
             letter-spacing: 1px;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 0px; 
+            height: 3px;
+            background-color: var(--accent-cyan);
+            border-radius: 2px;
+            transition: width 1s var(--ease-out-expo) 0.3s;
+        }
+
+        .page.fade-in h2::after {
+            width: 60px;
         }
 
         .content-box {
             background-color: var(--bg-surface);
-            padding: 40px;
+            padding: 45px;
             border: 1px solid var(--border-subtle);
-            border-left: 3px solid var(--accent-cyan);
-            margin-bottom: 40px;
-            transition: background-color 0.4s ease, border-color 0.4s ease;
+            border-left: 4px solid var(--accent-cyan);
+            border-radius: 8px;
+            box-shadow: 0 10px 40px var(--shadow-soft);
+            margin-bottom: 45px;
+            transition: transform 0.6s var(--ease-out-expo), box-shadow 0.6s var(--ease-out-expo), border-color 0.6s ease, background-color 0.8s var(--ease-out-expo);
+        }
+
+        .content-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 50px var(--shadow-cyan);
+            border-left-color: var(--accent-gold);
         }
 
         p {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             margin-bottom: 20px;
+            letter-spacing: 0.3px;
+            color: var(--text-main);
         }
 
-        /* Grid Layouts for Programs */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 35px;
         }
 
         .card {
             background-color: var(--bg-surface);
-            padding: 30px;
+            padding: 35px;
             border: 1px solid var(--border-subtle);
-            transition: transform 0.3s, border-color 0.3s, background-color 0.4s ease;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px var(--shadow-soft);
+            transition: transform 0.6s var(--ease-spring), box-shadow 0.6s var(--ease-out-expo), border-color 0.4s ease, background-color 0.8s var(--ease-out-expo);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px) scale(1.02);
             border-color: var(--accent-gold);
+            box-shadow: 0 20px 40px var(--shadow-glow);
+            z-index: 10;
         }
 
         .card h3 {
             color: var(--accent-gold);
             margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+            transition: color 0.4s ease;
+        }
+
+        .card:hover h3 {
+            color: var(--accent-cyan);
         }
 
         .tag {
@@ -182,26 +291,33 @@
             font-size: 0.75rem;
             color: var(--bg-surface);
             background-color: var(--accent-cyan);
-            padding: 3px 8px;
-            border-radius: 2px;
+            padding: 5px 12px;
+            border-radius: 4px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
+            letter-spacing: 1.5px;
+            margin-bottom: 18px;
+            font-weight: bold;
+            transition: background-color 0.4s ease, transform 0.4s var(--ease-spring);
         }
 
-        /* Footer */
+        .card:hover .tag {
+            transform: scale(1.05);
+            background-color: var(--accent-gold);
+            color: var(--bg-deep);
+        }
+
         footer {
             background-color: var(--bg-surface);
             text-align: center;
-            padding: 30px;
+            padding: 40px;
             border-top: 1px solid var(--border-subtle);
             font-family: 'Arial', sans-serif;
             font-size: 0.85rem;
             color: var(--text-muted);
             letter-spacing: 1px;
-            transition: background-color 0.4s ease;
+            transition: background-color 0.8s var(--ease-out-expo);
         }
-        /* 📱 MOBILE RESPONSIVENESS (Screens smaller than 768px) */
+
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -209,36 +325,36 @@
             }
 
             .logo-svg {
-                height: 50px; /* Shrink logo slightly for mobile */
-                margin-bottom: 15px;
+                height: 55px; 
+                margin-bottom: 20px;
             }
 
             nav {
                 width: 100%;
                 justify-content: center;
-                flex-wrap: wrap; /* Allows buttons to drop to a new line if needed */
-                gap: 10px;
+                flex-wrap: wrap; 
+                gap: 12px;
             }
 
             nav button {
                 margin-left: 5px;
                 margin-right: 5px;
-                font-size: 0.8rem; /* Slightly smaller text */
+                font-size: 0.8rem; 
             }
 
             #theme-toggle {
                 margin-left: 10px;
                 position: absolute;
-                top: 20px;
-                right: 15px; /* Pins the dark mode toggle to the top right */
+                top: 25px;
+                right: 15px; 
             }
 
             h2 {
-                font-size: 1.8rem;
+                font-size: 1.9rem;
             }
 
-            .content-box {
-                padding: 20px;
+            .content-box, .card {
+                padding: 25px;
             }
         }
     </style>
@@ -247,32 +363,34 @@
 
     <header>
         <div class="logo-container" onclick="switchPage('home')">
-            <svg class="logo-svg" viewBox="0 0 850 180" xmlns="http://www.w3.org/2000/svg">
+            <svg class="logo-svg" viewBox="0 0 900 180" xmlns="http://www.w3.org/2000/svg">
                 <g transform="translate(100, 90) rotate(-30) scale(0.85)">
-                    <path d="M -80,0 A 80,80 0 0,1 80,0" fill="none" stroke="var(--accent-gold)" stroke-width="14" stroke-linecap="round" transform="translate(-15, -10)" style="transition: stroke 0.4s ease;" />
-                    <path d="M 80,0 A 80,80 0 0,1 -80,0" fill="none" stroke="var(--text-muted)" stroke-width="14" stroke-linecap="round" transform="translate(15, 10)" style="transition: stroke 0.4s ease;" />
-                    <circle cx="0" cy="0" r="14" fill="var(--accent-cyan)" style="transition: fill 0.4s ease;" />
+                    <path class="logo-arc-gold" d="M -80,0 A 80,80 0 0,1 80,0" fill="none" stroke="var(--accent-gold)" stroke-width="14" stroke-linecap="round" transform="translate(-15, -10)" style="transition: stroke 0.6s ease, filter 0.6s ease;" />
+                    <path class="logo-arc-ash" d="M 80,0 A 80,80 0 0,1 -80,0" fill="none" stroke="var(--text-muted)" stroke-width="14" stroke-linecap="round" transform="translate(15, 10)" style="transition: stroke 0.6s ease, filter 0.6s ease;" />
+                    <circle class="logo-nexus" cx="0" cy="0" r="14" fill="var(--accent-cyan)" style="transition: transform 0.6s var(--ease-spring), fill 0.6s ease; transform-origin: center;" />
                 </g>
                 
-                <text x="210" y="105" font-family="'Georgia', serif" font-size="76" font-weight="normal" fill="var(--text-main)" letter-spacing="2" style="transition: fill 0.4s ease;">ICTS<tspan fill="var(--accent-gold)">-</tspan>MAPs</text>
+                <text x="210" y="105" font-family="'Georgia', serif" font-size="76" font-weight="normal" fill="var(--text-main)" letter-spacing="2" style="transition: fill 0.8s var(--ease-out-expo);">ICTS<tspan fill="var(--accent-gold)">-</tspan>MAPs</text>
                 
-                <text x="215" y="150" font-family="'Arial', sans-serif" font-size="24" font-weight="bold" fill="var(--text-muted)" letter-spacing="3" text-transform="uppercase" style="transition: fill 0.4s ease;">Mathematics and Physics society</text>
+                <text x="215" y="150" font-family="'Arial', sans-serif" font-size="21" font-weight="bold" fill="var(--text-muted)" letter-spacing="3" text-transform="uppercase" style="transition: fill 0.8s var(--ease-out-expo);">Mathematics, Aesthetics, and Physics society</text>
             </svg>
         </div>
         <nav>
             <button id="nav-home" class="active" onclick="switchPage('home')">Home</button>
             <button id="nav-about" onclick="switchPage('about')">Philosophy</button>
             <button id="nav-programs" onclick="switchPage('programs')">Programs</button>
+            <button id="nav-hold" onclick="switchPage('hold')">The HolD</button>
             <button id="nav-archives" onclick="switchPage('archives')">Archives</button>
             <button id="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">🌓</button>
         </nav>
     </header>
 
-    <div id="home" class="page active">
+    <!-- Notice the 'fade-in' class is applied to the home page so it animates gently on first load -->
+    <div id="home" class="page active fade-in">
         <h2>The Nexus of Theoretical Sciences</h2>
         <div class="content-box">
-            <p>Welcome to the <strong>Mathematics and Physics society (MAPs)</strong> at the International Centre for Theoretical Sciences. We are an interdisciplinary forum dedicated to the rigorous exploration of foundational reality.</p>
-            <p>From the emergent behavior of complex systems to the mathematical symmetry underpinning quantum mechanics, MAPs provides a dedicated space where the abstraction of mathematics meets the phenomena of physics.</p>
+            <p>Welcome to the <strong>Mathematics, Aesthetics, and Physics society (MAPs)</strong> at the International Centre for Theoretical Sciences. We are an interdisciplinary forum dedicated to the rigorous exploration of foundational reality and the philosophical appreciation of existence.</p>
+            <p>From the emergent behavior of complex systems to the mathematical symmetry underpinning quantum mechanics, MAPs provides a dedicated space where the abstraction of mathematics meets the phenomena of physics, anchored by a deep reverence for the aesthetics of nature.</p>
         </div>
         <div class="grid">
             <div class="card">
@@ -290,7 +408,7 @@
         <h2>Our Intellectual Philosophy</h2>
         <div class="content-box">
             <p>Our emblem—the broken symmetry—represents the fundamental truth of the universe we study. In pure mathematics and absolute physics, perfect symmetry is a void. It is only when symmetry breaks that time, matter, and complexity emerge.</p>
-            <p>MAPs exists exactly at this conceptual fault line. We study the pure, abstract frameworks of reality (the upper gold arc) and trace how they map onto chaotic, physical phenomena (the lower physical arc). The observer, and this society, acts as the central point bridging the two.</p>
+            <p>MAPs exists exactly at this conceptual fault line. We study the pure, abstract frameworks of reality (the upper gold arc) and trace how they map onto chaotic, physical phenomena (the lower physical arc). The observer, integrating logic and aesthetics, acts as the central point bridging the two.</p>
         </div>
     </div>
 
@@ -315,26 +433,45 @@
         </div>
     </div>
 
+    <div id="hold" class="page">
+        <h2>The HolD: Holistic Discussions</h2>
+        <div class="content-box" style="border-left-color: var(--text-muted);">
+            <p><strong>The HolD</strong> is our dedicated space for <em>staying in life</em>, rather than merely moving through it. It serves as a stationary center of gravity amidst the furious pace of academic research.</p>
+            <p>Here, we step away from the blackboard to discuss life holistically through literature, poetry, philosophy, and the human condition. It is a vital reminder that while we rigorously deconstruct the universe, we must also experience and appreciate it aesthetically.</p>
+        </div>
+        <div class="grid">
+            <div class="card" style="border-top: 3px solid var(--accent-gold);">
+                <span class="tag" style="background-color: var(--text-muted);">Poetry & Philosophy</span>
+                <h3>The Still Point</h3>
+                <p>An open circle for reading verses, literary excerpts, and philosophical texts that move us. A place to explore human emotion without the need for mathematical translation.</p>
+            </div>
+            <div class="card" style="border-top: 3px solid var(--accent-cyan);">
+                <span class="tag" style="background-color: var(--text-muted);">Open Forum</span>
+                <h3>The Ground State</h3>
+                <p>A low-stakes, warm environment with tea and open conversation. No performances, no derivations, no expectations—just existing together at our foundation.</p>
+            </div>
+        </div>
+    </div>
+
     <div id="archives" class="page">
         <h2>Repository & Syntheses</h2>
         <div class="content-box" style="border-left-color: var(--accent-gold);">
             <p>The society maintains an active repository of collaborative notes, lecture syntheses, and foundational derivations to support the broader ICTS community.</p>
-            <ul style="color: var(--text-muted); line-height: 2;">
+            <ul style="color: var(--text-muted); line-height: 2.2;">
                 <li><strong style="color: var(--text-main);">Thermal Physics Summaries:</strong> Collaborative notes on statistical ensembles and thermodynamics.</li>
                 <li><strong style="color: var(--text-main);">Mathematical Methods Compendium:</strong> Quick-reference sheets for operator theory and symmetries.</li>
                 <li><strong style="color: var(--text-main);">The Translation Logs:</strong> Records of cross-disciplinary mappings developed during our blackboard panels.</li>
             </ul>
-            <p style="margin-top: 30px; font-size: 0.9rem;"><em>All archive materials are openly accessible to current institute members.</em></p>
+            <p style="margin-top: 30px; font-size: 0.95rem;"><em>All archive materials are openly accessible to current institute members.</em></p>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 ICTS - Mathematics and Physics society (MAPs)</p>
+        <p>&copy; 2026 ICTS - Mathematics, Aesthetics, and Physics society (MAPs)</p>
         <p style="font-size: 0.75rem; color: var(--text-muted);">Maintained in collaboration with the PhysicSofy platform.</p>
     </footer>
 
     <script>
-        // Check local storage for theme preference on load
         document.addEventListener("DOMContentLoaded", () => {
             const savedTheme = localStorage.getItem("maps-theme");
             if (savedTheme === "light") {
@@ -342,7 +479,6 @@
             }
         });
 
-        // Toggle Theme Function
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute("data-theme");
             if (currentTheme === "light") {
@@ -354,24 +490,41 @@
             }
         }
 
-        // Page Switching Function
         function switchPage(pageId) {
-            // Hide all pages
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
+            // Find the currently visible page
+            const currentActive = document.querySelector('.page.active');
+            
+            // Prevent triggering if clicking the tab you are already on
+            if (currentActive && currentActive.id === pageId) return;
 
-            // Remove active class from all nav buttons
+            // Update Navigation Buttons
             const navBtns = document.querySelectorAll('nav button:not(#theme-toggle)');
             navBtns.forEach(btn => btn.classList.remove('active'));
-
-            // Show selected page
-            document.getElementById(pageId).classList.add('active');
-
-            // Highlight selected nav button
             document.getElementById('nav-' + pageId).classList.add('active');
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (currentActive) {
+                // Step 1: Tell the current page to start fading out
+                currentActive.classList.remove('fade-in');
+                
+                // Step 2: Wait for the fade-out transition to finish (400ms)
+                setTimeout(() => {
+                    // Remove it from the document flow completely
+                    currentActive.classList.remove('active');
+                    
+                    // Step 3: Bring the new page into the document flow
+                    const newPage = document.getElementById(pageId);
+                    newPage.classList.add('active');
+                    
+                    // Scroll gracefully to the top while the screen is "blank"
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    // Step 4: Tiny delay to ensure browser reads 'display: block' before animating opacity
+                    setTimeout(() => {
+                        newPage.classList.add('fade-in');
+                    }, 50);
+
+                }, 400); // 400ms pause creates the smooth crossfade effect
+            }
         }
     </script>
 
